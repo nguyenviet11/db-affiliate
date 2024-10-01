@@ -23,7 +23,7 @@ app.use((req, res, next) => {
 app.get("/status", async (req, res) => {
   const { id } = req.query; 
   try {
-    const item = await Item.findOne({ id: 3 }); 
+    const item = await Item.findOne({ id: id }); 
     if (!item) {
       return res.status(404).json({ message: "No item found" });
     }
