@@ -6,6 +6,7 @@ const Item = require("./model/Item");
 
 const app = express();
 
+const ports = "https://db-affiliate.onrender.com" || 3000
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
@@ -72,7 +73,7 @@ mongoose
   )
   .then((result) => {
     console.log("connectd");
-    app.listen(3000);
+    app.listen(ports);
   })
   .catch((err) => {
     console.log(err, 'errrr');
