@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const Item = require("./model/Item");
 
 const app = express();
-const ports = process.env.PORT || 3000
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
@@ -72,7 +72,7 @@ mongoose
   )
   .then((result) => {
     console.log("connectd");
-    app.listen(ports);
+    app.listen(3000);
   })
   .catch((err) => {
     console.log(err, 'errrr');
