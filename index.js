@@ -3,7 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const Item = require("./model/Item");
-
+require('dotenv').config()
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -65,11 +65,9 @@ app.post("/api/create-item", async (req, res) => {
     res.status(500).json({ message: "Error creating item" });
   }
 });
-
+    
 mongoose
-  .connect(
-    "mongodb+srv://nguyenvanvietbn1998:uAwOBI7DOuEFrbwv@ospreyfx.wt6cx.mongodb.net/?retryWrites=true&w=majority&appName=ospreyfx"
-  )
+  .connect(process.env.MONGODB_URL)
   .then((result) => {
     console.log("connectd");
     app.listen(3000);
