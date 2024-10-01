@@ -5,8 +5,7 @@ const mongoose = require("mongoose");
 const Item = require("./model/Item");
 
 const app = express();
-
-const ports = "https://db-affiliate.onrender.com" || 3000
+const ports = process.env.PORT || 3000
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
