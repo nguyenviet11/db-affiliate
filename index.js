@@ -3,28 +3,19 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const Item = require("./model/Item");
+const cors = require('cors');
 require('dotenv').config()
 const app = express();
+
+app.use(cors({
+  origin: '*', 
+  methods: 'OPTIONS, GET, POST, PUT, PATCH, DELETE',
+  allowedHeaders: 'Content-Type, Authorization, X-Requested-With'
+}));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
-
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "OPTIONS, GET, POST, PUT, PATCH, DELETE"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Content-Type, Authorization, X-Requested-With"
-  );
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(200);
-  }
-  next(); 
-});
 
 app.get("/status", async (req, res) => {
   const { id } = req.query; 
@@ -76,7 +67,9 @@ mongoose
   .connect(process.env.MONGODB_URL)
   .then((result) => {
     console.log("Connected to MongoDB");
-    app.listen(3000);
+    app.listen(3000, () => {
+      console.log("Server is running on http://localhost:3000"); // Log server start
+    });
   })
   .catch((err) => {
     console.log(err, 'errrr');
