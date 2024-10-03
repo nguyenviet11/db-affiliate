@@ -64,11 +64,17 @@ app.post("/api/create-item", async (req, res) => {
 });
     
 mongoose
-  .connect(process.env.MONGODB_URL)
+  .connect(process.env.MONGODB_URL,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      poolSize: 15,
+    }
+  )
   .then((result) => {
     console.log("Connected to MongoDB");
     app.listen(3000, () => {
-      console.log("Server is running on http://localhost:3000"); // Log server start
+      console.log("Server is running on http://localhost:3000"); 
     });
   })
   .catch((err) => {
