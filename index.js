@@ -16,8 +16,14 @@ app.use((req, res, next) => {
     "Access-Control-Allow-Methods",
     "OPTIONS, GET, POST, PUT, PATCH, DELETE"
   );
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  next();
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization, X-Requested-With"
+  );
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+  next(); 
 });
 
 app.get("/status", async (req, res) => {
@@ -69,7 +75,7 @@ app.post("/api/create-item", async (req, res) => {
 mongoose
   .connect(process.env.MONGODB_URL)
   .then((result) => {
-    console.log("connectd");
+    console.log("Connected to MongoDB");
     app.listen(3000);
   })
   .catch((err) => {
