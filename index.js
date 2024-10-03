@@ -66,9 +66,7 @@ app.post("/api/create-item", async (req, res) => {
 mongoose
   .connect(process.env.MONGODB_URL,
     {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      poolSize: 15,
+      maxPoolSize: 10,
     }
   )
   .then((result) => {
