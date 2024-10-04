@@ -75,7 +75,7 @@ function keepMongoAlive() {
       }
     });
 }
-setInterval(keepMongoAlive, 90000);
+setInterval(keepMongoAlive, 60000);
 
 mongoose
   .connect(process.env.MONGODB_URL, {
