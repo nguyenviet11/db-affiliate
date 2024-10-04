@@ -75,11 +75,12 @@ function keepMongoAlive() {
       }
     });
 }
-setInterval(keepMongoAlive, 60000);
+setInterval(keepMongoAlive, 80000);
 
 mongoose
   .connect(process.env.MONGODB_URL, {
     maxPoolSize: 15,
+    socketTimeoutMS: 40000,
     minPoolSize: 7
   })
   .then((result) => {
