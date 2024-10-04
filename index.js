@@ -65,16 +65,17 @@ app.post("/api/create-item", async (req, res) => {
   }
 });
 
-// function keepMongoAlive() {
-//   const admin = mongoose.connection.db.admin();
-//   admin.ping((err, result) => {
-//     if (err) {
-//       console.log("Ping failed", err);
-//     } else {
-//       console.log("Ping success", result);
-//     }
-//   });
-// }
+function keepMongoAlive() {
+  const admin = mongoose.connection.db.admin();
+  admin.ping((err, result) => {
+    if (err) {
+      console.log("Ping failed:", err);
+    } else {
+      console.log("Ping success:", result);
+    }
+  });
+}
+
 mongoose
   .connect(process.env.MONGODB_URL, {
     maxPoolSize: 10,
@@ -83,23 +84,9 @@ mongoose
   .then((result) => {
     console.log("Connected to MongoDB");
     app.listen(3000, () => {
-      console.log("Server is running on http://localhost:3000");
-      // setInterval(keepMongoAlive, 400000);
+      setInterval(keepMongoAlive, 30000); 
     });
   })
   .catch((err) => {
     console.log(err, "errrr");
-  });
-
-  mongoose.connection.on('disconnected', () => {
-    mongoose.connect(process.env.MONGODB_URL, {
-      maxPoolSize: 10,
-      socketTimeoutMS: 45000,
-    }).then(() => {
-        console.log("Reconnected to MongoDB");
-      // app.listen(3000, () => {
-      // });
-    }).catch((err) => {
-      console.log("Failed to reconnect:", err.message);
-    });
   });
