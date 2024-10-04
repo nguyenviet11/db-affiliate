@@ -79,8 +79,9 @@ setInterval(keepMongoAlive, 180000);
 
 mongoose
   .connect(process.env.MONGODB_URL, {
-    maxPoolSize: 10,
+    maxPoolSize: 15,
     socketTimeoutMS: 45000,
+    minPoolSize: 7
   })
   .then((result) => {
     console.log("Connected to MongoDB");
