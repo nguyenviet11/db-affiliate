@@ -64,34 +64,17 @@ app.post("/api/create-item", async (req, res) => {
     res.status(500).json({ message: "Error creating item" });
   }
 });
-let reconnectAttempts = 0;
-const maxReconnectAttempts = 5;
-function handleDisconnect() {
-  reconnectAttempts++;
-  if (reconnectAttempts < maxReconnectAttempts) {
-    setTimeout(() => {
-      mongoose
-        .connect(process.env.MONGODB_URL, {
-          maxPoolSize: 10,
-          socketTimeoutMS: 45000,
-        })
-        .then(() => {
-          console.log("Kết nối lại thành công!");
-          reconnectAttempts = 0;
-        })
-        .catch((err) => {
-          console.log("Lỗi khi thử kết nối lại:", err.message);
-        });
-    }, 5000);
-  } else {
-    console.log(
-      `Đã đạt giới hạn thử kết nối lại (${maxReconnectAttempts}). Dừng kết nối...`
-    );
-  }
+
+function keepMongoAlive() {
+  const admin = mongoose.connection.db.admin();
+  admin.ping((err, result) => {
+    if (err) {
+      console.log("Ping failed", err);
+    } else {
+      console.log("Ping success", result);
+    }
+  });
 }
-
-mongoose.connection.on("disconnected", handleDisconnect);
-
 mongoose
   .connect(process.env.MONGODB_URL, {
     maxPoolSize: 10,
@@ -101,6 +84,7 @@ mongoose
     console.log("Connected to MongoDB");
     app.listen(3000, () => {
       console.log("Server is running on http://localhost:3000");
+      setInterval(keepMongoAlive, 600000);
     });
   })
   .catch((err) => {
