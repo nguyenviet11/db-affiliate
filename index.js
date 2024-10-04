@@ -65,17 +65,17 @@ app.post("/api/create-item", async (req, res) => {
   }
 });
 
-function keepMongoAlive() {
-    const admin = mongoose.connection.db.admin();
-    admin.ping((err, result) => {
-      if (err) {
-        console.log("Ping failed:", err);
-      } else {
-        console.log("Ping success:", result);
-      }
-    });
-}
-setInterval(keepMongoAlive, 90000);
+// function keepMongoAlive() {
+//     const admin = mongoose.connection.db.admin();
+//     admin.ping((err, result) => {
+//       if (err) {
+//         console.log("Ping failed:", err);
+//       } else {
+//         console.log("Ping success:", result);
+//       }
+//     });
+// }
+// setInterval(keepMongoAlive, 90000);
 
 mongoose
   .connect(process.env.MONGODB_URL, {
