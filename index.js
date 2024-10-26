@@ -54,8 +54,8 @@ app.post("/api/create-item", async (req, res) => {
     //   return res.status(400).json({ message: 'Item already exists' });
     // }
     const newItem = new Item({
-      id: 5,
-      name: "vantagemakets",
+      id: 6,
+      name: "the5esr",
       status: false,
     });
     await newItem.save();
